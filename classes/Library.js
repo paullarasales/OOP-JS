@@ -1,24 +1,40 @@
-class Book {
-    constructor(title, author, ISBN) {
-        this.title = title;
-        this.author = author;
-        this.ISBN = ISBN;
-        this.isAvailable = true;
+class Library {
+    constructor() {
+        this.books = [];
+        this.members = [];
     }
 
-    lend() {
-        if (this.isAvailable) {
-            this.isAvailable = false;
-            console.log(`${this.title} has been lent out`);
+    addBook(book) {
+        this.books.push(book);
+        console.log(`Added "${book.title}" to the library.`);
+    }
+
+    addMember(member) {
+        this.members.push(member);
+        console.log(`Added member "${member.name}" to the library.`);
+    }
+    
+    lendBook(bookTitle, memberId) {
+        const book = this.books.find(b => b.title === bookTitle);
+        const member = this.members.find(m => m.memberId === memberId);
+        
+        if (book && member) {
+            member.borrowBook(book);
         } else {
-            console.log(`${this.title} is not available`);
+            console.log(`Book or member not found.`);
         }
     }
 
-    returnBook() {
-        this.isAvailable = true;
-        console.log(`${this.title} has been returned`);
+    returnBook(bookTitle, memberId) {
+        const book = this.books.find(b => b.title === bookTitle);
+        const member = this.members.find(m => m.memberId === memberId);
+        
+        if (book && member) {
+            member.returnBook(book);
+        } else {
+            console.log('Book or member not found.');
+        }
     }
 }
 
-export default Book;
+export default Library;
